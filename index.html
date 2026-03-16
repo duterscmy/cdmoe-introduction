@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Primary Meta Tags -->
+  <!-- TODO: Replace with your paper title and author names -->
+  <meta name="title" content="Condense, Don't Just Prune: Enhancing Efficiency and Performance in MoE Layer Pruning">
+  <!-- TODO: Write a compelling 150-160 character description of your research -->
+  <meta name="description" content="Our paper introduces a novel method for MoE layer pruning that not only reduces model size but also enhances performance by condensing the model's knowledge into a more efficient architecture. We demonstrate significant improvements in both efficiency and accuracy across multiple benchmarks, showcasing the potential of our approach for real-world applications.">
+  <!-- TODO: Add 5-10 relevant keywords for your research area -->
+  <meta name="keywords" content="MoE, Pruning, Efficiency, Performance, Neural Networks">
+  <!-- TODO: List all authors -->
+  <meta name="author" content="Mingyu Cao, Gen Li, Jie Ji, Jiaqi Zhang, Ajay Jaiswal, Li Shen, Xiaolong Ma, Shiwei Liu, Lu Yin">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <!-- TODO: Replace with your institution or lab name -->
+  <meta property="og:site_name" content="University of Surrey">
+  <!-- TODO: Same as paper title above -->
+  <meta property="og:title" content="Condense, Don't Just Prune: Enhancing Efficiency and Performance in MoE Layer Pruning">
+  <!-- TODO: Same as description above -->
+  <meta property="og:description" content="">
+  <!-- TODO: Replace with your actual website URL -->
+  <meta property="og:url" content="https://duterscmy.github.io/soar-introduction">
+  <!-- TODO: Create a 1200x630px preview image and update path -->
+ <meta property="og:image" content="https://duterscmy.github.io/soar-introduction/static/images/favicon.ico">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Condense, Don't Just Prune">
+  <meta property="article:published_time" content="2026-02-20T00:00:00.000Z">
+  <meta property="article:author" content="Mingyu Cao">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="SOAR">
+  <meta property="article:tag" content="DLMs">
+
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="PAPER_TITLE">
+  <meta name="citation_author" content="FIRST_AUTHOR_LAST, FIRST_AUTHOR_FIRST">
+  <meta name="citation_author" content="SECOND_AUTHOR_LAST, SECOND_AUTHOR_FIRST">
+  <meta name="citation_publication_date" content="2024">
+  <meta name="citation_conference_title" content="CONFERENCE_NAME">
+  <meta name="citation_pdf_url" content="https://YOUR_DOMAIN.com/static/pdfs/paper.pdf">
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+  <!-- TODO: Replace with your paper title and authors -->
+  <title>Condense, Don't Just Prune</title>
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/png" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+  
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+  
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "PAPER_TITLE",
+    "description": "BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "FIRST_AUTHOR_NAME",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "SECOND_AUTHOR_NAME",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "INSTITUTION_NAME"
+        }
+      }
+    ],
+    "datePublished": "2024-01-01",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CONFERENCE_OR_JOURNAL_NAME"
+    },
+    "url": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE",
+    "image": "https://YOUR_DOMAIN.com/static/images/social_preview.png",
+    "keywords": ["KEYWORD1", "KEYWORD2", "KEYWORD3", "machine learning", "computer vision"],
+    "abstract": "FULL_ABSTRACT_TEXT_HERE",
+    "citation": "BIBTEX_CITATION_HERE",
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "RESEARCH_AREA_1"
+      },
+      {
+        "@type": "Thing", 
+        "name": "RESEARCH_AREA_2"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Website/Organization Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "INSTITUTION_OR_LAB_NAME",
+    "url": "https://YOUR_INSTITUTION_WEBSITE.com",
+    "logo": "https://YOUR_DOMAIN.com/static/images/favicon.ico",
+    "sameAs": [
+      "https://twitter.com/YOUR_TWITTER_HANDLE",
+      "https://github.com/YOUR_GITHUB_USERNAME"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <!-- TODO: Replace with your paper title -->
+            <h1 class="title is-1 publication-title">
+            Condense, Don't Just Prune: Enhancing Efficiency and Performance in MoE Layer Pruning
+          </h1>
+            <div class="is-size-5 publication-authors">
+              <!-- TODO: Replace with your paper authors and their personal links -->
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=nq7uHwQAAAAJ&hl=en" target="_blank">Mingyu Cao</a>,</span>
+                <span class="author-block">
+                  <a href="https://scholar.google.com/citations?hl=en&user=4nzCXV8AAAAJ" target="_blank">Gen Li</a>,</span>
+                  <span class="author-block">
+                    <a href="https://scholar.google.com/citations?hl=en&user=aoGaDN4AAAAJ" target="_blank">Jie Ji</a>,</span>
+                <span class="author-block">
+
+                  <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=hvWVWfIAAAAJ&hl=en" target="_blank">Jiaqi Zhang</a>,</span>
+                <span class="author-block">
+                  <a href="https://ajay1994.github.io/" target="_blank">Ajay Jaiswal</a>,</span>
+                  <span class="author-block">
+                    <a href="https://scholar.google.com/citations?user=yVhgENIAAAAJ&hl=zh-TW" target="_blank">Li Shen</a>,</span>
+                <span class="author-block">
+                  <a href="https://xiaolongma2016.com/" target="_blank">Xiaolong Ma</a>,</span>
+                <span class="author-block">
+
+                  <a href="https://shiweiliuiiiiiii.github.io/" target="_blank">Shiwei Liu</a>,</span>
+                  <span class="author-block">
+                    <a href="https://luuyin.com/" target="_blank">Lu Yin</a><sup>✉</sup>,</span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <!-- TODO: Replace with your institution and conference/journal info -->
+                    <span class="author-block" style="font-size: 0.9rem;">
+University of Surrey, Clemson University, Meituan, University of Texas at Austin, Sun Yat-sen University, The University of Arizona, University of Oxford, ELLIS Institute Tübingen, Max Planck Institute for Intelligent Systems, Tübingen AI Center
+</span>
+<br>
+<span class="author-block" style="font-size: 1.0rem; font-weight: 600;">TMLR</span>
+                    <!-- TODO: Remove this line if no equal contribution -->
+                    <span class="eql-cntrb"><small><br><sup>✉</sup>Indicates Corresponding author</small></span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- TODO: Update with your arXiv paper ID -->
+                      <span class="link-block">
+                        <a href="https://arxiv.org/abs/2412.00069" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+
+                  <!-- TODO: Replace with your GitHub repository URL -->
+                  <span class="link-block">
+                    <a href="https://github.com/duterscmy/CD-MoE" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- TODO: Update with your arXiv paper ID -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2412.00069" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Overview</h2>
+        <div class="content has-text-justified">
+        <p>
+          The core idea of <strong>CD-MoE</strong> is to <strong>Condense</strong> multiple routed experts in MoE models into several fixed experts, transforming sparse layers back into dense layers to achieve inference acceleration and memory savings. Our key contributions are:
+        </p>
+        <ul style="color: #000000; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+          <li style="margin-bottom: 0.25rem;">Proposed the <strong>Condense</strong> concept, consolidating multiple experts (e.g., 64) in certain layers into a smaller number (e.g., 6).</li>
+          <li style="margin-bottom: 0.25rem;">Employed a greedy search based on JS divergence to select the most suitable experts and layers for condensation, maintaining 90%+ of the original accuracy.</li>
+          <li style="margin-bottom: 0.25rem;">Through further lightweight fine-tuning, restored model quality to 95%+ of the pre-pruning level.</li>
+        </ul>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!-- Method Illustration -->
+<section class="section">
+  <div class="container is-max-widescreen">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Method Illustration</h2>
+        <div class="content has-text-justified">
+          <figure class="image" style="max-width: 100%; margin: 0 auto;">
+            <img src="static/images/cdmoe-method.png" alt="CD-MoE Method Illustration" style="width: 75%; height: auto; max-height: 600px; object-fit: contain;">
+          </figure>
+          
+          <div style="margin-top: 0.5rem; text-align: left; color: #000000; font-size: 1rem; width: 75%; margin-left: auto; margin-right: auto;">
+            <p style="margin-bottom: 0.5rem;">
+              <strong>Left:</strong> Original Deepseek MoE layer — tokens are dynamically routed to different experts via the gating network.
+            </p>
+            <p>
+              <strong>Right:</strong> Our <strong>ConDense-MoE</strong> layer — all tokens are routed to the same set of condensed experts, achieving:
+            </p>
+            <ul style="margin-top: 0.2rem; margin-bottom: 0.2rem; padding-left: 1.5rem;">
+              <li style="margin-bottom: 0.25rem;"><strong>Parameter & memory savings</strong> via significant expert reduction</li>
+              <li style="margin-bottom: 0.25rem;"><strong>Inference acceleration</strong> by removing the routing overhead</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Method Illustration -->
+
+
+<!-- Further Analysis -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">A Key Findings</h2>
+        <div class="content">
+          <figure class="image has-text-centered">
+            <img src="static/images/cdmoe-fluctuation.png" alt="Confidence and AR-ness vs Accuracy" style="width: 60%; height: auto;">
+          </figure>
+          
+          <div style="margin-top: 1.5rem; color: #000000; font-size: 1rem;"> 
+<p style="color: #000000; font-style: normal; font-size: 1rem; margin-top: 0.5rem; padding-left: 1.2rem;">
+  We observe that different layers exhibit varying degrees of output embedding shift after Condense (especially the shallowest and deepest layers are most affected). Therefore, we propose using greedy search to select the most suitable layers for Condense.
+</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Further Analysis -->
+
+
+
+<!-- Main Results -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Main Results</h2>
+        <div class="content">
+          <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+            <img src="static/images/cdmoe-sft.png" alt="Main Results" style="max-width: 80%; height: auto;">
+          </div>
+          
+          <div style="margin-top: 1rem; margin-bottom: 1rem; font-size: 1rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+<p style="margin-top: 1rem; font-size: 0.85rem; color: #666; font-style: italic; text-align: center;">
+  <strong>Upper:</strong> Results on DeepSeekMoE-16B; <strong>Lower:</strong> Results on Qwen1.5-MoE-A2.7B
+</p>
+<p style="margin-top: 0.25rem; font-size: 0.85rem; color: #666; font-style: italic; text-align: center;">
+  <strong>CD-MoE-S:</strong> Only shared experts retained; <strong>CD-MoE-SR:</strong> Both shared experts and condensed routed experts retained.
+</p>
+
+
+  <p style="margin-bottom: 0.5rem;">
+    Baseline methods Block Drop and Layer Drop aggressively prune all experts from selected layers. As a result, quality degradation becomes more severe as the pruning ratio increases.
+  </p>
+
+  <p style="margin-bottom: 1rem;">
+    In contrast, <strong style="color: #2e8b57;">Condense</strong> preserves quality much more effectively by retaining and consolidating important experts rather than completely discarding them.
+  </p>
+
+</div>
+  </div>
+</section>
+<!-- End Main Results -->
+
+<!-- Detail Results -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Light-weight Supervised Finetuning Results</h2>
+        <div class="content">
+          <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+            <img src="static/images/cdmoe-main-results.png" alt="SFT Results on LLaDA-8B-Base and Dream-7B-Base" style="max-width: 75%; height: auto;">
+          </div>
+          
+          <div style="margin-top: 1rem; color: #000000; font-size: 1rem;">
+            <p style="margin-bottom: 0.8rem; text-align: center;">
+              After lightweight fine-tuning targeting only the Condense layers, model quality is further restored.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Detail Results -->
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@misc{cao2025condensedontjustprune,
+      title={Condense, Don't Just Prune: Enhancing Efficiency and Performance in MoE Layer Pruning}, 
+      author={Mingyu Cao and Gen Li and Jie Ji and Jiaqi Zhang and Xiaolong Ma and Shiwei Liu and Lu Yin},
+      year={2025},
+      eprint={2412.00069},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2412.00069}, 
+}
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
